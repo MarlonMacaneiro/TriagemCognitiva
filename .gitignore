@@ -1,0 +1,35 @@
+# Build outputs
+bin/
+obj/
+out/
+TestResults/
+*.VisualState.xml
+
+# IDE/Tooling
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.code-workspace
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+
+# OS/Editor junk
+.DS_Store
+Thumbs.db
+
+# Local tools/models
+tools/tessdata/
+
+# Test artifacts
+tests/Benner.CognitiveServices.Tests/Fixtures/ClassificationFileServiceFiles/Results/*.txt
+
+# Logs/temp
+*.log
+*.tmp
+~$*
+

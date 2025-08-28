@@ -24,6 +24,7 @@ Thumbs.db
 
 # Local tools/models
 tools/tessdata/
+.dev_setup_done
 
 # Test artifacts
 tests/Benner.CognitiveServices.Tests/Fixtures/ClassificationFileServiceFiles/Results/*.txt
@@ -32,4 +33,3 @@ tests/Benner.CognitiveServices.Tests/Fixtures/ClassificationFileServiceFiles/Res
 *.log
 *.tmp
 ~$*
-

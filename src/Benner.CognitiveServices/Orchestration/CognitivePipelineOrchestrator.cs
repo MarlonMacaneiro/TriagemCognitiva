@@ -36,9 +36,23 @@ public class CognitivePipelineOrchestrator
         var typed = _classificationFileType.Process(extractionFileContents);
 
         // Next steps (to be added as services are implemented):
-        // - Classification type of file ( FaturaRecibo, Boleto, NotaFiscal, Outros )
-        // - Triage (country/layout)
+        // - TODO: Triage (country/layout) 
         // - Info classification & prompt selection
+        // -- EntidadesRetornar
+        // --- Fornecedor CNPJ
+        // --- Nome Fornecedor
+        // --- Cliente CNPJ/CPF
+        // --- Nome Cliente
+        // --- Passageiro (Hospede, pax, locador de veiculo)
+        // --- Confirmacao
+        // --- Tarifa (Valor diaria/Valor hospedagem)
+        // --- Taxas
+        // --- Impostos
+        // --- Extras
+        // --- Data entrada
+        // --- Data saida
+        // --- Data vencimento
+        // --- Linha digitavel
         // - Prompt processing via API
         // - Result handling and serialization
     }

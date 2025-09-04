@@ -50,29 +50,35 @@ public class ExtractionContentFileServiceExtractCasesTests
         {
             var baseName = Path.GetFileNameWithoutExtension(path);
             var outPath = Path.Combine(responseDir, baseName + ".txt");
+
+            string text;
             if (File.Exists(outPath))
             {
-                _output.WriteLine($"Skip existing: {outPath}");
-                continue;
+                _output.WriteLine($"Using existing: {outPath}");
+                text = File.ReadAllText(outPath);
+            }
+            else
+            {
+                var sanitized = new SanitizedFiles
+                {
+                    AcceptedFiles =
+                    {
+                        new SanitizedFile
+                        {
+                            FileName = Path.GetFileName(path),
+                            FullPath = path,
+                            MimeType = GuessMimeType(path)
+                        }
+                    }
+                };
+
+                var result = svc.Process(sanitized);
+                text = result.Files.FirstOrDefault()?.TextContent ?? string.Empty;
+                File.WriteAllText(outPath, text);
+                _output.WriteLine($"Saved: {outPath} (len={text.Length})");
             }
 
-            var sanitized = new SanitizedFiles
-            {
-                AcceptedFiles =
-                {
-                    new SanitizedFile
-                    {
-                        FileName = Path.GetFileName(path),
-                        FullPath = path,
-                        MimeType = GuessMimeType(path)
-                    }
-                }
-            };
-
-            var result = svc.Process(sanitized);
-            var text = result.Files.FirstOrDefault()?.TextContent ?? string.Empty;
-            File.WriteAllText(outPath, text);
-            _output.WriteLine($"Saved: {outPath} (len={text.Length})");
+            Assert.False(string.IsNullOrWhiteSpace(text), $"Extracted content is empty. Source='{path}', Response='{outPath}'");
         }
     }
 
@@ -128,4 +134,3 @@ public class ExtractionContentFileServiceExtractCasesTests
         return false;
     }
 }
-

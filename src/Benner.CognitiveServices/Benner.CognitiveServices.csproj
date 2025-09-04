@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -9,6 +9,8 @@
   <ItemGroup>
     <PackageReference Include="itext7" Version="9.2.0" />
     <PackageReference Include="Tesseract" Version="5.2.0" />
+    <PackageReference Include="Docnet.Core" Version="2.4.0" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.6" />
   </ItemGroup>
 </Project>
 

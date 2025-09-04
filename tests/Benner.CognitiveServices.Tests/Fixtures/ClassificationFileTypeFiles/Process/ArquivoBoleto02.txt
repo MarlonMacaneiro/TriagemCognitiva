@@ -1,0 +1,66 @@
+RECIBO DO PAGADOR
+033-7
+Local de Pagamento
+Pagável Na Rede Bancária Até o Vencimento
+Beneficiario
+UP ASSET CR HOTEL LTDA CNPJ:18.631.967/0002-18
+RUA CONSTANTE RAMOS 96 - COPACABANA - RJ CEP 22051-012
+Data do Documento Nº do Documento Espécie Doc Aceite Data do Processamento
+19/08/2025 38922 DM N 19/08/2025
+Nº  da Conta/Respo Carteira Espécie Quantidade Valor
+X
+R$
+101
+Instruções: ( Texto de Responsabilidade do Cedente )
+Após o vencimento cobrar R$ (0,31) por dia de atraso.
+Vencimento
+01/09/2025
+Nosso Número
+00000000011045
+( = ) Valor do Documento
+932,40
+( - ) Desconto
+Após o vencimento cobrar R$(0,13) por dia de atraso
+( - ) Outras Deduções / Abatimento
+( + ) Mora / Multa / Juros
+( + ) Outros Acréscimos
+Recebimento através do cheque Nº
+do banco
+( = ) Valor Cobrado
+Esta quitação só terá validade após o pagamento do cheque pelo banco sacado.
+Pagador:
+COSTA BRAVA TURISMO LTDA C.G.C \ CPF: 59717926000145
+Avenida Carlos Grimaldi
+Jardim Conceição Campinas 13091000 SP
+Código de baixa 5593
+Sacador/Avalista:
+ Autenticação Mecânica 
+03399.97942  44100.000007  01104.501018  5  11910000093240
+033-7
+Local de Pagamento Vencimento
+01/09/2025
+Pagável Na Rede Bancária Até o Vencimento
+Beneficiario Agência/Código Beneficiario
+UP ASSET CR HOTEL LTDA CNPJ:18.631.967/0002-18
+RUA CONSTANTE RAMOS 96 - COPACABANA - RJ CEP 22051-012 3458-4 / 9794441
+Data do Documento Nº do Documento Espécie Doc Aceite Data do Processamento Nosso Número
+19/08/2025 38922 DM N 19/08/2025 00000000011045
+Nº  da Conta/Respo Carteira Espécie Quantidade Valor ( = ) Valor do Documento
+X
+101 R$ 932,40
+Instruções: ( Texto de Responsabilidade do Cedente ) ( - ) Desconto
+Após o vencimento cobrar R$ (0,31) por dia de atraso.
+( - ) Outras Deduções / Abatimento
+( + ) Mora / Multa / Juros
+( + ) Outros Acréscimos
+( = ) Valor Cobrado
+Pagador:
+COSTA BRAVA TURISMO LTDA C.G.C \ CPF: 59717926000145
+Avenida Carlos Grimaldi 1701
+Jardim Conceição Campinas 13091000 SP
+5593
+Código de baixa
+Sacador/Avalista:
+ Autenticação Mecânica 
+FICHA DE COMPENSAÇÃO
+03395119100000932409979444100000000110450101

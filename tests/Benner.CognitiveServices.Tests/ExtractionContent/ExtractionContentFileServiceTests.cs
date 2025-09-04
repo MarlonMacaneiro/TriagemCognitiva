@@ -2,19 +2,19 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using Benner.CognitiveServices.Classification;
+using Benner.CognitiveServices.ExtractionContent;
 using Benner.CognitiveServices.Contracts;
 using FluentAssertions;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Benner.CognitiveServices.Tests.Classification;
+namespace Benner.CognitiveServices.Tests.ExtractionContent;
 
-public class ClassificationFileServiceTests
+public class ExtractionContentFileServiceTests
 {
     private readonly ITestOutputHelper _output;
 
-    public ClassificationFileServiceTests(ITestOutputHelper output)
+    public ExtractionContentFileServiceTests(ITestOutputHelper output)
     {
         _output = output;
     }
@@ -127,11 +127,11 @@ public class ClassificationFileServiceTests
         return null;
     }
 
-    private static ClassificationFileService CreateService(string tessDataPath, string languages, bool usePdfExtractor = true)
+    private static ExtractionContentFileService CreateService(string tessDataPath, string languages, bool usePdfExtractor = true)
     {
         IPdfTextExtractor pdfExtractor = usePdfExtractor ? new IText7PdfTextExtractor() : new DummyPdfExtractor();
         IOcrService ocr = new TesseractOcrService(tessDataPath, languages);
-        return new ClassificationFileService(pdfExtractor, ocr);
+        return new ExtractionContentFileService(pdfExtractor, ocr);
     }
 
     private static SanitizedFiles BuildSanitized(params (string fullPath, string mime)[] files)
@@ -214,7 +214,7 @@ public class ClassificationFileServiceTests
         var dir = new DirectoryInfo(baseDir);
         for (int i = 0; i < 8 && dir != null; i++, dir = dir.Parent)
         {
-            var candidate = Path.Combine(dir.FullName, "tests", "Benner.CognitiveServices.Tests", "Fixtures", "ClassificationFileServiceFiles", "Results");
+            var candidate = Path.Combine(dir.FullName, "tests", "Benner.CognitiveServices.Tests", "Fixtures", "ExtractionContentFileServiceFiles", "Results");
             var parent = Path.GetDirectoryName(candidate);
             if (!string.IsNullOrEmpty(parent))
             {

@@ -2,24 +2,24 @@ using System;
 using System.IO;
 using Benner.CognitiveServices.Contracts;
 
-namespace Benner.CognitiveServices.Classification;
+namespace Benner.CognitiveServices.ExtractionContent;
 
-public class ClassificationFileService : IClassificationFileService
+public class ExtractionContentFileService : IExtractionContentFileService
 {
     private readonly IPdfTextExtractor _pdfExtractor;
     private readonly IOcrService _ocrService;
 
-    public ClassificationFileService(IPdfTextExtractor pdfExtractor, IOcrService ocrService)
+    public ExtractionContentFileService(IPdfTextExtractor pdfExtractor, IOcrService ocrService)
     {
         _pdfExtractor = pdfExtractor ?? throw new ArgumentNullException(nameof(pdfExtractor));
         _ocrService = ocrService ?? throw new ArgumentNullException(nameof(ocrService));
     }
 
-    public ClassificationResult Process(SanitizedFiles sanitized)
+    public ExtractionContentFileResult Process(SanitizedFiles sanitized)
     {
         if (sanitized is null) throw new ArgumentNullException(nameof(sanitized));
 
-        var result = new ClassificationResult
+        var result = new ExtractionContentFileResult
         {
             SourceIdentifier = sanitized.SourceIdentifier,
             WorkspaceFolderName = sanitized.WorkspaceFolderName,
@@ -31,7 +31,7 @@ public class ClassificationFileService : IClassificationFileService
 
         foreach (var file in sanitized.AcceptedFiles)
         {
-            var classified = new ClassifiedFile
+            var fileContentExtraction  = new FileContentExtraction
             {
                 FileName = file.FileName,
                 FullPath = file.FullPath,
@@ -50,8 +50,8 @@ public class ClassificationFileService : IClassificationFileService
                 // Imagem (ou outro) -> OCR
                 textContent = SafeOcr(file.FullPath);
 
-            classified.TextContent = textContent;
-            result.Files.Add(classified);
+            fileContentExtraction.TextContent = textContent;
+            result.Files.Add(fileContentExtraction);
         }
 
         return result;

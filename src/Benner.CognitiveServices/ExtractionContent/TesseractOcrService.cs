@@ -8,7 +8,7 @@ using iText.Kernel.Pdf;
 using iText.Kernel;
 using Tesseract;
 
-namespace Benner.CognitiveServices.Classification;
+namespace Benner.CognitiveServices.ExtractionContent;
 
 public class TesseractOcrService : IOcrService
 {

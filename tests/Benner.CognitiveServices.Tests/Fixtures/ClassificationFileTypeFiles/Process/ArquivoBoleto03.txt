@@ -1,0 +1,47 @@
+Beneficiário: IBIS STYLES CAMPINAS ALPHAVILLE CNPJ:80.732.928/0073-74 Rua Embirugu, 300, CEP: - Alphaville Empresarial, SP - SP
+Agência / Código Beneficiário: 2711/30695-7
+Vencimento: 03/09/2025
+
+Pagador: COSTA BRAVA TURISMO LTDA CPF/CNPJ: 59.717.926/0001-45
+Número do Documento: 60490
+Nosso Número: 109/00005339-3
+
+Espécie: R$
+Quantidade: 448,87
+(+) Valor do Documento: 448,87
+
+Demonstrativo: NUMERO(S) DA(S) NOTA(S) E PARCELA: 60490
+
+--- Ficha de Compensação ---
+Autenticação Mecânica
+
+Itaú Banco Itaú S.A. | 341-7 | 34191.09008 00533.932711 13069.570003 5 11930000044887
+
+Local de Pagamento: Pagável em qualquer banco até o vencimento
+Vencimento: 03/09/2025
+
+Beneficiário: IBIS STYLES CAMPINAS ALPHAVILLE CNPJ:80.732.928/0073-74 Rua Embirugu, 300, CEP: - Alphaville Empresarial, SP - SP
+Agência / Código Beneficiário: 2711/30695-7
+
+Data Documento: 08/08/2025
+Número do Documento: 60490
+Espécie Doc.: DM
+Aceito: NAO
+Data Processamento: 08/08/2025
+Nosso Número: 109/00005339-3
+
+Carteira: 108
+Espécie: R$
+Quantidade: 448,87
+(+) Valor do Documento: 448,87
+
+Informações de responsabilidade do beneficiário:
+Após 03/09/2025 cobrar Juros de R$ 0,98 ao dia
+Após 03/09/2025 cobrar Multa de R$ 8,98
+
+Pagador: COSTA BRAVA TURISMO LTDA
+Endereço: AVENIDA CARLOS GRIMALDI, 1701, CONJ 02-A TORRE 1 2 PAVIMENTO, JARDIM CONCEICAO, CEP: 13091968 - Campinas - SP
+CPF/CNPJ: 59.717.926/0001-45
+
+--- Ficha de Compensação ---
+Autenticação Mecânica

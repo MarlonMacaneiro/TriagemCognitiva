@@ -5,7 +5,7 @@ using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas.Parser;
 using iText.Kernel.Pdf.Canvas.Parser.Listener;
 
-namespace Benner.CognitiveServices.Classification;
+namespace Benner.CognitiveServices.ExtractionContent;
 
 public class IText7PdfTextExtractor : IPdfTextExtractor
 {
@@ -30,4 +30,3 @@ public class IText7PdfTextExtractor : IPdfTextExtractor
         return sb.ToString();
     }
 }
-

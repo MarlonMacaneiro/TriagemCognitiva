@@ -89,15 +89,28 @@ public class TesseractOcrService : IOcrService
         var results = new List<byte[]>();
         try
         {
-            var resources = page.GetResources();
-            var xObjects = resources?.GetResource(iText.Kernel.Pdf.PdfName.XObject) as iText.Kernel.Pdf.PdfDictionary;
-            if (xObjects == null) return results;
+            ExtractFromResources(page.GetResources(), results);
+        }
+        catch { /* ignore */ }
+
+        return results;
+    }
+
+    private static void ExtractFromResources(iText.Kernel.Pdf.PdfResources? resources, List<byte[]> results)
+    {
+        if (resources is null) return;
+
+        try
+        {
+            var xObjects = resources.GetResource(iText.Kernel.Pdf.PdfName.XObject) as iText.Kernel.Pdf.PdfDictionary;
+            if (xObjects == null) return;
 
             foreach (var name in xObjects.KeySet())
             {
                 var stream = xObjects.GetAsStream(name);
                 if (stream == null) continue;
                 var subtype = stream.GetAsName(iText.Kernel.Pdf.PdfName.Subtype);
+
                 if (iText.Kernel.Pdf.PdfName.Image.Equals(subtype))
                 {
                     try
@@ -109,10 +122,18 @@ public class TesseractOcrService : IOcrService
                     }
                     catch { /* ignore */ }
                 }
+                else if (iText.Kernel.Pdf.PdfName.Form.Equals(subtype))
+                {
+                    try
+                    {
+                        var form = new PdfFormXObject(stream);
+                        var inner = form.GetResources();
+                        ExtractFromResources(inner, results);
+                    }
+                    catch { /* ignore */ }
+                }
             }
         }
         catch { /* ignore */ }
-
-        return results;
     }
 }

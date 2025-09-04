@@ -57,7 +57,19 @@ public class ClassificationFileType
         // Requisitos mínimos para considerar: presença de 'prefeitura' e ( 'nota fiscal' ou 'nfs-e' ) e ao menos um de tomador/prestador.
         if (!lower.Contains("prefeitura"))
             return false;
-        bool hasNotaFiscalPhrase = lower.Contains("nota fiscal") || lower.Contains("nfs-e") || lower.Contains("nfs e") || lower.Contains("nfse");
+            
+        bool hasNotaFiscalPhrase =
+            lower.Contains("nota fiscal") || lower.Contains("nfs-e")
+            || lower.Contains("nfs e")
+            || lower.Contains("nfse")
+
+            || lower.Contains("nf-e")
+            || lower.Contains("nf e")
+            || lower.Contains("nfe")
+
+            || lower.Contains("código de verificação")
+            || lower.Contains("codigo de verificacao");
+
         if (!hasNotaFiscalPhrase)
             return false;
         bool hasTomador = lower.Contains("tomador");
@@ -75,7 +87,7 @@ public class ClassificationFileType
         // Campos típicos de NFS-e municipal
         string[] optionalTokens =
         {
-            "código de verificação", "codigo de verificacao", "chave de acesso", "inscrição municipal", "inscricao municipal",
+            "chave de acesso", "inscrição municipal", "inscricao municipal",
             "iss", "serviço", "servicos", "serviço(s)", "regime especial tributação", "competência", "competencia",
             "discriminação dos serviços", "discriminacao dos servicos", "valor dos serviços", "valor total dos serviços"
         };

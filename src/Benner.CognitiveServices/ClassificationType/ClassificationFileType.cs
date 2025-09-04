@@ -29,9 +29,10 @@ public class ClassificationFileType
                 type = ClassifiedFileType.Outros;
             else if (DetectBoleto(text))
                 type = ClassifiedFileType.Boleto;
-                
-            // else if ( DetectNotaFiscal(text) )
-            //     type = ClassifiedFileType.NotaFiscal;
+            else if (DetectNotaFiscal(text))
+                type = ClassifiedFileType.NotaFiscal;
+
+
             // else if ( DetectFaturaRecibo(text) )
             //     type = ClassifiedFileType.FaturaRecibo;
 
@@ -47,91 +48,104 @@ public class ClassificationFileType
         return result;
     }
 
+    public bool DetectNotaFiscal(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return false;
+        var lower = text.ToLowerInvariant();
+
+        // Requisitos mínimos para considerar: presença de 'prefeitura' e ( 'nota fiscal' ou 'nfs-e' ) e ao menos um de tomador/prestador.
+        if (!lower.Contains("prefeitura"))
+            return false;
+        bool hasNotaFiscalPhrase = lower.Contains("nota fiscal") || lower.Contains("nfs-e") || lower.Contains("nfs e") || lower.Contains("nfse");
+        if (!hasNotaFiscalPhrase)
+            return false;
+        bool hasTomador = lower.Contains("tomador");
+        bool hasPrestador = lower.Contains("prestador");
+
+        // Heurística de pontuação para fortalecer a detecção e reduzir falso positivo.
+        int score = 0;
+
+        // Elementos principais
+        if (hasTomador) score += 2;
+        if (hasPrestador) score += 2;
+        score += 2; // nota fiscal (já validado)
+        score += 2; // prefeitura (já validado)
+
+        // Campos típicos de NFS-e municipal
+        string[] optionalTokens =
+        {
+            "código de verificação", "codigo de verificacao", "chave de acesso", "inscrição municipal", "inscricao municipal",
+            "iss", "serviço", "servicos", "serviço(s)", "regime especial tributação", "competência", "competencia",
+            "discriminação dos serviços", "discriminacao dos servicos", "valor dos serviços", "valor total dos serviços"
+        };
+        int optionalHits = optionalTokens.Count(t => lower.Contains(t));
+        score += optionalHits; // 1 ponto por token encontrado
+
+        // Padrões de CNPJ: presença de dois CNPJs (prestador e tomador) reforça muito.
+        var cnpjRegex = new Regex(@"\b\d{2}\.?\d{3}\.?\d{3}/?\d{4}-?\d{2}\b");
+        var cnpjMatches = cnpjRegex.Matches(text);
+        if (cnpjMatches.Count >= 2) score += 3; else if (cnpjMatches.Count == 1) score += 1;
+
+        // Código de verificação / chave longa numérica (>= 30 dígitos espalhados) também reforça.
+        var longDigitSeq = Regex.IsMatch(text, @"\b\d{8,}\b");
+        if (longDigitSeq) score += 1;
+
+        // Threshold empírico: >=8 sugere forte evidência de NFS-e.
+        return score >= 8;
+    }
+
     public bool DetectBodyMail(string text)
     {
-        // Heurística mais robusta para identificar corpo de e-mail.
-        // Ideia: somar pontos para evidências típicas de e-mail e aplicar um threshold.
-        // Mantido simples (sem NLP pesado) para performance em grandes volumes.
         if (string.IsNullOrWhiteSpace(text)) return false;
 
-        // Normalização básica
         var normalized = text.Replace('\r', '\n');
         while (normalized.Contains("\n\n\n")) normalized = normalized.Replace("\n\n\n", "\n\n");
         var lower = normalized.ToLowerInvariant();
 
-        // Regex reutilizáveis (compiladas uma vez por AppDomain via cache local static)
-        // Declaração local static garante inicialização uma vez e mantém o método self-contained.
         static Regex EmailRegex() => new(@"[a-z0-9_.+-]+@[a-z0-9-]+\.[a-z0-9-.]{2,}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        static Regex ReplySeparatorRegex() => new(@"^-{2,}\s*(mensagem original|original message|forwarded message)\s*-{2,}$", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
+        var headers = new[] { "de", "para", "from", "to", "cc", "cco", "bcc", "assunto", "subject", "data", "sent", "reply-to" };
+        var bodyPhrases = new[] { "segue em anexo", "em anexo", "anexo", "bom dia", "boa tarde", "boa noite", "favor ", "gentileza", "segue abaixo" };
 
-        // Cabeçalhos comuns (pt / en) que podem aparecer no topo ou em blocos de encaminhamento.
-        var colonHeaderRegex = new Regex(@"^\s*(de|from|para|to|assunto|subject|cc|cco|bcc|data|sent|reply\-to)\s*:", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        static bool StartsWithToken(string line, string token)
-        {
-            return line.StartsWith(token + " ", StringComparison.Ordinal) || line.StartsWith(token + "\t", StringComparison.Ordinal);
-        }
-
-        // Sinais de assinatura / formulações típicas.
-        string[] signatureTokens =
-        {
-            "atenciosamente", "obrigado", "obrigada", "grato", "grata", "att.", "abs", "cordialmente", "sds.", "saudacoes", "cheers", "best regards", "regards"
-        };
-
-        // Palavras que aparecem com frequÃªncia em fluxos de email (anexo(s), responder, encaminhar etc.)
-        string[] generalMailWords = { "anexo", "anexos", "responder", "resposta", "encaminhar", "encaminhado", "forward", "reply" };
-
-        // EstratÃ©gia de pontuaÃ§Ã£o.
         int score = 0;
-
-        // 1. Contar linhas de cabeçalho estruturadas (antes de um bloco vazio) ou em bloco de encaminhamento.
+        var emailRx = EmailRegex();
         var lines = normalized.Split('\n');
-        int headerLikeCount = 0;
-        foreach (var rawLine in lines.Take(60))
+
+        int headerEmailHits = 0;
+        for (int i = 0; i < Math.Min(lines.Length, 120); i++)
         {
-            var line = rawLine.Trim();
-            if (colonHeaderRegex.IsMatch(line)
-                || StartsWithToken(line, "De")
-                || StartsWithToken(line, "Para")
-                || StartsWithToken(line, "Cc")
-                || StartsWithToken(line, "Assunto")
-                || StartsWithToken(line, "Data")
-                || StartsWithToken(line, "From")
-                || StartsWithToken(line, "To")
-                || StartsWithToken(line, "Subject"))
+            var line = lines[i].Trim();
+            foreach (var h in headers)
             {
-                headerLikeCount++;
+                bool isHeader = line.StartsWith(h + ":", StringComparison.OrdinalIgnoreCase)
+                                || line.StartsWith(h + " ", StringComparison.OrdinalIgnoreCase)
+                                || line.StartsWith(h + "\t", StringComparison.OrdinalIgnoreCase);
+                if (!isHeader) continue;
+
+                bool sameLineEmail = emailRx.IsMatch(line);
+                bool nextLineEmail = false;
+                for (int j = i + 1; j < Math.Min(lines.Length, i + 3); j++)
+                {
+                    var ln = lines[j].Trim();
+                    if (ln.Length == 0) continue;
+                    nextLineEmail = emailRx.IsMatch(ln);
+                    break;
+                }
+                if (sameLineEmail || nextLineEmail)
+                    headerEmailHits++;
             }
         }
-        if (headerLikeCount >= 2) score += 3; // cabeçalhos fortes
-        else if (headerLikeCount == 1) score += 1; // fraco mas conta
 
-        // 2. Emails explícitos.
-        var hasEmailAddress = EmailRegex().IsMatch(text);
-        if (hasEmailAddress) score += 2;
+        if (headerEmailHits > 0) score += 4;
+        if (bodyPhrases.Any(p => lower.Contains(p))) score += 1;
 
-        // 3. Separadores de resposta / encaminhamento.
-        var hasReplySep = ReplySeparatorRegex().IsMatch(text); if (hasReplySep) score += 2;
-
-        // 4. Tokens gerais de email.
-        int generalHits = generalMailWords.Count(w => lower.Contains(w));
-        if (generalHits >= 2) score += 2; else if (generalHits == 1) score += 1;
-
-        // 5. Assinatura provável (token de assinatura no último terço do texto)
-        var lastThirdIndex = (int)(lines.Length * 0.66);
-        var tail = string.Join('\n', lines.Skip(lastThirdIndex));
-        if (signatureTokens.Any(t => tail.IndexOf(t, StringComparison.OrdinalIgnoreCase) >= 0)) score += 1;
-
-        // 6. Comprimento característico (evita marcar textos muito curtos sem contexto)
-        if (text.Length > 120) score += 1; // pequeno bÃ´nus
-
-        // Threshold ajustado empiricamente: >=4 indica forte evidÃªncia de corpo de e-mail.
-        if (headerLikeCount == 0 && !hasReplySep) return false; return score >= 5;
+        return score >= 5;
     }
-
 
     public bool DetectBoleto(string text)
     {
         if (string.IsNullOrWhiteSpace(text)) return false;
+
         var lower = text.ToLowerInvariant();
 
         // Palavras-chave comuns
@@ -150,6 +164,8 @@ public class ClassificationFileType
         return false;
     }
 }
+
+
 
 
 

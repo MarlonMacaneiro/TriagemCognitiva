@@ -1,0 +1,40 @@
+Prefeitura de Porto Alegre - Secretaria da Fazenda
+Emitida em: Competência: Código de Verificação:
+Nº: 2025/9614
+09/06/2025 às  23:54:13 09/06/2025 f28a2d37
+ICH ADMINISTRACAO DE HOTEIS S/A
+CPF/CNPJ: 02.584.924/0039-80 Inscrição Municipal: 28063422
+AV  LOUREIRO DA SILVA, 1960, CENTRO HISTORICO - CEP: 90050-240
+Porto Alegre RS
+Telefone: Email:
+Tomador do(s) Serviço(s)
+CPF/CNPJ:59.717.926/0001-45 Inscrição Municipal: 13188
+COSTA BRAVA TURISMO LTDA
+AV CARLOS GRIMALDI, 1701, Conj 2A, JARDIM CONCEICAO - CEP: 13091-908
+Campinas SP
+Telefone: Email: faturamento@costabrava.com.br
+Discriminação do(s) Serviço(s)
+VERSAO: 11.1.111.7493 
+ ISS - DIARIAS 116,00 
+ DIARIA 2.320,00   
+ Trib aprox R$:440,62 Fed, 142,80 Est e 118,63 Mun Fonte: IBPT/FECOMERCIO RS 244637 
+  
+Código de Tributação do Município (CTISS)
+0901-0/02-00 / 
+Subitem Lista de Serviços LC 116/03 / Descrição:
+9.01 / Hospedagem de qualquer natureza em hotéis, apart-service condominiais, flat, apart-hotéis, hotéis residência, residence-service, suite service,
+hotelaria marítima, motéis, pensões e congêneres; ocupação por temporada com fornecimento de serviço (o valor da alimentação e gorjeta, quando
+incluído no preço da diária, fica sujeito ao Imposto Sobre Serviços).
+Cod/Município da incidência do ISSQN: Natureza da Operação:
+4314902 / Porto Alegre Tributação no município
+Valor dos serviços: R$ 2.436,00 Valor dos serviços: R$ 2.436,00
+(-) Descontos: R$ 0,00 (-) Deduções: R$ 0,00
+(-) Retenções Federais: R$ 0,00 (-) Desconto Incondicionado: R$ 0,00
+(-) ISS Retido na Fonte: R$ 0,00 (=) Base de Cálculo: R$ 2.436,00
+(X) Alíquota: 5,00 %
+Valor Líquido: R$ 2.436,00
+(=) Valor do ISS: R$ 121,80
+Prefeitura de Porto Alegre
+Rua Siqueira Campos, 1300 - 4º andar - Bairro Centro Histórico - CEP 90.010-907 - Porto Alegre RS.
+Tel: 156 (opção 4) ou (51) 3289-0140(chamadas de outras cidades)
+https://servicos.procempa.com.br

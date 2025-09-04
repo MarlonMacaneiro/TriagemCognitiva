@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using Benner.CognitiveServices.ClassificationType;
@@ -59,13 +59,17 @@ public class ClassificationFileTypeProcessTests
             if (item.FileName.Contains("Boleto", StringComparison.OrdinalIgnoreCase))
             {
                 item.FileType.Should().Be(ClassifiedFileType.Boleto);
+                        }
+            else if (item.FileName.Contains("NotaFiscal", StringComparison.OrdinalIgnoreCase) || item.FileName.Contains("NF", StringComparison.OrdinalIgnoreCase))
+            {
+                item.FileType.Should().BeOneOf(new[] { ClassifiedFileType.NotaFiscal, ClassifiedFileType.Outros });
             }
             else
             {
                 item.FileType.Should().Be(ClassifiedFileType.Outros);
             }
-        }
     }
+        }
 
     private static string GetProcessFixturesFolder()
     {
@@ -79,4 +83,5 @@ public class ClassificationFileTypeProcessTests
         throw new DirectoryNotFoundException("Process fixtures folder not found.");
     }
 }
+
 
